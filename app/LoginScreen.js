@@ -13,17 +13,23 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberPassword, setRememberPassword] = useState(false);
 
+  const navigation = useNavigation(); // Get the navigation object
+
   const handleLogin = () => {
     // Handle login logic here
     console.log("Email:", email);
     console.log("Password:", password);
     console.log("Remember Password:", rememberPassword);
+
+    // Navigate to HomeScreen upon successful login
+    navigation.navigate("Home");
   };
 
   return (
