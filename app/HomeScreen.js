@@ -19,13 +19,16 @@ const HomeScreen = ({ navigation }) => {
             style={styles.logo}
           />
         </View>
+
         <View style={styles.buttonContainer}>
+        {/* //Attendance */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Attendance")}
           >
             <Text style={styles.buttonText}>Attendance</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Chat")}
