@@ -1,3 +1,4 @@
+// app/HomeScreen.js
 import React from "react";
 import {
   View,
@@ -33,15 +34,15 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Report")}
-          >
-            <Text style={styles.buttonText}>Report</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
             onPress={() => navigation.navigate("TaskList")}
           >
             <Text style={styles.buttonText}>Task List</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Report")}
+          >
+            <Text style={styles.buttonText}>Report</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.bottomContainer}>
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#1E90FF",
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 20,
     alignItems: "center",
     marginBottom: 20,
     width: "100%",
