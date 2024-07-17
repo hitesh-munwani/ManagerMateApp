@@ -1,9 +1,11 @@
+// App.js
 import React from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./app/LoginScreen";
 import HomeScreen from "./app/HomeScreen";
+import ChatScreen from "./app/ChatScreen"; // Import ChatScreen
 
 const Stack = createStackNavigator();
 
@@ -18,11 +20,17 @@ const App = () => {
         />
         <Stack.Screen
           name="Home"
-          component={HomeScreen} // Add HomeScreen here
+          component={HomeScreen}
           options={{ title: "" }}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={ChatScreen} // Add ChatScreen here
+          options={{ title: "Chat" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+
 export default App;
