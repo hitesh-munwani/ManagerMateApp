@@ -10,81 +10,94 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberPassword, setRememberPassword] = useState(false);
 
   const handleLogin = () => {
     // Handle login logic here
     console.log("Email:", email);
     console.log("Password:", password);
+    console.log("Remember Password:", rememberPassword);
   };
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={styles.keyboardAvoidingView}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.container}>
-          <Image
-            source={require("../../ManagerMate/assets/logo.png")}
-            style={styles.logo}
-          />
-          <Text style={styles.text}>
-            By signing in you are agreeing {"\n"} our
-            <Text style={styles.link}> Term and privacy policy</Text>
-          </Text>
-
-          <TextInput
-            style={styles.input}
-            placeholder="Email Address"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-          <View style={styles.options}>
-            <View style={styles.checkboxContainer}>
-              <TouchableOpacity style={styles.checkbox}>
-                {/* You can add a checked icon here */}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.topContainer}>
+            <Image
+              source={require("../../ManagerMate/assets/logo.png")}
+              style={styles.logo}
+            />
+            <Text style={styles.text}>
+              By signing in you are agreeing {"\n"} our
+              <Text style={styles.link}> Term and privacy policy</Text>
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Email Address"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+            <View style={styles.options}>
+              <View style={styles.checkboxContainer}>
+                <TouchableOpacity
+                  style={styles.checkbox}
+                  onPress={() => setRememberPassword(!rememberPassword)}
+                >
+                  {rememberPassword && <View style={styles.checkedBox} />}
+                </TouchableOpacity>
+                <Text style={styles.optionText}>Remember password</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => console.log("Forgot password pressed")}
+              >
+                <Text style={styles.optionText}>Forget password</Text>
               </TouchableOpacity>
-              <Text style={styles.optionText}>Remember password</Text>
             </View>
-            <TouchableOpacity
-              onPress={() => console.log("Forgot password pressed")}
-            >
-              <Text style={styles.optionText}>Forget password</Text>
-            </TouchableOpacity>
+            <Button title="Login" onPress={handleLogin} />
           </View>
-          <Button title="Login" onPress={handleLogin} />
-        </View>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require("../../ManagerMate/assets/btmImg.jpg")}
-          />
-        </View>
-      </ScrollView>
+          <View style={styles.bottomContainer}>
+            <Image
+              style={styles.image}
+              source={require("../../ManagerMate/assets/btmImg.png")}
+            />
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  keyboardAvoidingView: {
     flex: 1,
-    paddingHorizontal: 20,
+  },
+  container: {
+    flexGrow: 1,
     backgroundColor: "#fff",
+    justifyContent: "space-between",
+  },
+  topContainer: {
+    paddingHorizontal: 20,
   },
   logo: {
     width: 250,
@@ -124,17 +137,25 @@ const styles = StyleSheet.create({
     height: 20,
     borderWidth: 1,
     borderColor: "#ccc",
-    marginRight: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 4,
+  },
+  checkedBox: {
+    width: 14,
+    height: 14,
+    backgroundColor: "#000",
   },
   optionText: {
     fontSize: 12,
     color: "#666",
   },
- 
+  bottomContainer: {
+    width: "100%",
+  },
   image: {
     width: "100%",
-    height: 200,
-    
+    height: 200, // Adjust height as needed
   },
 });
 
