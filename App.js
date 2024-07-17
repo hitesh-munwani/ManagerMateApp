@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./app/LoginScreen";
 import HomeScreen from "./app/HomeScreen";
 import ChatScreen from "./app/ChatScreen"; // Import ChatScreen
+import TaskList from "./app/TaskList";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,11 @@ const App = () => {
           name="Chat"
           component={ChatScreen} // Add ChatScreen here
           options={{ title: "Chat" }}
+        />
+         <Stack.Screen
+          name="TaskList"
+          component={TaskList} // Add ChatScreen here
+          options={{ title: "TaskList" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
