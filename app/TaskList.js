@@ -1,8 +1,10 @@
 // app/TaskList.js
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+// imports components 
 
 const TaskList = () => {
+  // A list of task objects with some dummy data
   // Dummy data for tasks (replace with actual data from backend or state)
   const tasks = [
     {
@@ -37,6 +39,8 @@ const TaskList = () => {
     },
   ];
 
+  // A function to render each task item.
+  //  It takes a task object as item and displays its details inside a styled View.
   const renderTaskItem = ({ item }) => (
     <View style={styles.taskItem}>
       <Text style={styles.taskTitle}>{item.title}</Text>
@@ -73,6 +77,7 @@ const TaskList = () => {
     </View>
   );
 };
+// keyExtractor (a function to extract a unique key for each item).
 
 const styles = StyleSheet.create({
   container: {
