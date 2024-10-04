@@ -29,26 +29,36 @@ const LoginScreen = () => {
       return;
     }
 
+  
     axios
-      .post("http://localhost:5000/login", {
-        email: email,
-        password: password,
-      })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.message === "Login successful") {
-          // Navigate to HomeScreen upon successful login
-          navigation.navigate("Home");
-        } else {
-          // Show an alert if email or password is incorrect
-          Alert.alert("Login Failed", "Invalid email or password");
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error logging in!", error);
-        Alert.alert("Error", "An error occurred. Please try again.");
-      });
-  };
+    .post("http://192.168.18.14:5000/login", {
+      email: email,
+      password: password,
+    }, {
+      headers: {
+        'Content-Type': 'application/json', // Make sure this is set
+      }
+    })
+    .then((response) => {
+      console.log(response.data);
+      if (response.data.message === "Login successful") {
+        // Navigate to HomeScreen upon successful login
+        navigation.navigate("Home");
+      } else {
+        Alert.alert("Login Failed", "Invalid email or password");
+      }
+    })
+    .catch((error) => {
+      console.error("Error logging in:", error);
+      if (error.response) {
+        Alert.alert("Error", error.response.data.message || "Server error");
+      } else if (error.request) {
+        Alert.alert("Error", "No response from the server. Check your network or if the server is running.");
+      } else {
+        Alert.alert("Error", "Failed to send request: " + error.message);
+      }
+    });
+};
 
   return (
     <KeyboardAvoidingView
