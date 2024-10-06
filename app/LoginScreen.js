@@ -41,7 +41,7 @@ const LoginScreen = () => {
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.topContainer}>
             <Image
-              source={require("../../ManagerMate/assets/logo.png")}
+              source={require("./../assets/logo.png")}
               style={styles.logo}
             />
             <Text style={styles.text}>
@@ -84,7 +84,7 @@ const LoginScreen = () => {
           <View style={styles.bottomContainer}>
             <Image
               style={styles.image}
-              source={require("../../ManagerMate/assets/btmImg.png")}
+              source={require("./../assets/btmImg.png")}
             />
           </View>
         </ScrollView>
