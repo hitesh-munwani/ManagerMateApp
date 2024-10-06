@@ -10,9 +10,9 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  TouchableWithoutFeedback,
-  Keyboard,
+  Alert, // Import Alert from React Native
 } from "react-native";
+import axios from "axios"; // Make sure to import axios
 import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
@@ -23,13 +23,47 @@ const LoginScreen = () => {
   const navigation = useNavigation(); // Get the navigation object
 
   const handleLogin = () => {
-    // Handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Remember Password:", rememberPassword);
+    // Validate input fields here if needed
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both email and password.");
+      return;
+    }
 
-    // Navigate to HomeScreen upon successful login
-    navigation.navigate("Home");
+    axios
+      .post(
+        "http://192.168.0.104:5000/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json", // Make sure this is set
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.message === "Login successful") {
+          // Navigate to HomeScreen upon successful login
+          navigation.navigate("Home");
+        } else {
+          Alert.alert("Login Failed", "Invalid email or password");
+        }
+      })
+      .catch((error) => {
+        console.error("Error logging in:", error);
+        if (error.response) {
+          Alert.alert("Error", error.response.data.message || "Server error");
+        } else if (error.request) {
+          Alert.alert(
+            "Error",
+            "No response from the server. Check your network or if the server is running."
+          );
+        } else {
+          Alert.alert("Error", "Failed to send request: " + error.message);
+        }
+      });
   };
 
   return (
@@ -37,58 +71,53 @@ const LoginScreen = () => {
       style={styles.keyboardAvoidingView}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={styles.container}>
-          <View style={styles.topContainer}>
-            <Image
-              source={require("./../assets/logo.png")}
-              style={styles.logo}
-            />
-            <Text style={styles.text}>
-              By signing in you are agreeing {"\n"} our
-              <Text style={styles.link}> Term and privacy policy</Text>
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Email Address"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-            <View style={styles.options}>
-              <View style={styles.checkboxContainer}>
-                <TouchableOpacity
-                  style={styles.checkbox}
-                  onPress={() => setRememberPassword(!rememberPassword)}
-                >
-                  {rememberPassword && <View style={styles.checkedBox} />}
-                </TouchableOpacity>
-                <Text style={styles.optionText}>Remember password</Text>
-              </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.topContainer}>
+          <Image source={require("./../assets/logo.png")} style={styles.logo} />
+          <Text style={styles.text}>
+            By signing in you are agreeing {"\n"} our
+            <Text style={styles.link}> Term and privacy policy</Text>
+          </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email Address"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <View style={styles.options}>
+            <View style={styles.checkboxContainer}>
               <TouchableOpacity
-                onPress={() => console.log("Forgot password pressed")}
+                style={styles.checkbox}
+                onPress={() => setRememberPassword(!rememberPassword)}
               >
-                <Text style={styles.optionText}>Forget password</Text>
+                {rememberPassword && <View style={styles.checkedBox} />}
               </TouchableOpacity>
+              <Text style={styles.optionText}>Remember password</Text>
             </View>
-            <Button title="Login" onPress={handleLogin} />
+            <TouchableOpacity
+              onPress={() => console.log("Forgot password pressed")}
+            >
+              <Text style={styles.optionText}>Forget password</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.bottomContainer}>
-            <Image
-              style={styles.image}
-              source={require("./../assets/btmImg.png")}
-            />
-          </View>
-        </ScrollView>
-      </TouchableWithoutFeedback>
+          <Button title="Login" onPress={handleLogin} />
+        </View>
+        <View style={styles.bottomContainer}>
+          <Image
+            style={styles.image}
+            source={require("./../assets/btmImg.png")}
+          />
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -126,6 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    zIndex: 1, // Ensure the input is on top of other views
   },
   options: {
     flexDirection: "row",

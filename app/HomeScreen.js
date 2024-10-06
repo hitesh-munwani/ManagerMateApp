@@ -21,10 +21,10 @@ const HomeScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          {/* //Attendance */}
+        {/* //Attendance */}
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Attendance")}
+            onPress={() => navigation.navigate("AttendanceScreen")}
           >
             <Text style={styles.buttonText}>Attendance</Text>
           </TouchableOpacity>
@@ -35,6 +35,8 @@ const HomeScreen = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Chat</Text>
           </TouchableOpacity>
+
+          
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("TaskList")}
