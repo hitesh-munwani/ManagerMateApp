@@ -31,7 +31,7 @@ const LoginScreen = () => {
 
     axios
       .post(
-        "http://192.168.0.106:5000/login",
+        "http://192.168.0.104:5000/login",
         {
           email: email,
           password: password,

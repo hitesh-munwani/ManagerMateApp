@@ -7,6 +7,7 @@ import LoginScreen from "./app/LoginScreen";
 import HomeScreen from "./app/HomeScreen";
 import ChatScreen from "./app/ChatScreen"; // Import ChatScreen
 import TaskList from "./app/TaskList";
+import AttendanceScreen from "./app/AttendanceScreen";
 
 const Stack = createStackNavigator();
 
@@ -29,10 +30,15 @@ const App = () => {
           component={ChatScreen} // Add ChatScreen here
           options={{ title: "Chat" }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="TaskList"
           component={TaskList} // Add ChatScreen here
           options={{ title: "TaskList" }}
+        />
+        <Stack.Screen
+          name="AttendanceScreen"
+          component={AttendanceScreen} // Add ChatScreen here
+          options={{ title: "AttendanceScreen" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

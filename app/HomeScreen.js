@@ -24,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
         {/* //Attendance */}
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Attendance")}
+            onPress={() => navigation.navigate("AttendanceScreen")}
           >
             <Text style={styles.buttonText}>Attendance</Text>
           </TouchableOpacity>
@@ -35,6 +35,8 @@ const HomeScreen = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Chat</Text>
           </TouchableOpacity>
+
+          
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("TaskList")}
