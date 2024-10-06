@@ -4,9 +4,9 @@
 node_modules/
 
 # Expo
-.expo/
-dist/
-web-build/
+# .expo/
+# dist/
+# web-build/
 
 # Native
 *.orig.*
@@ -17,7 +17,7 @@ web-build/
 *.mobileprovision
 
 # Metro
-.metro-health-check*
+# .metro-health-check*
 
 # debug
 npm-debug.*
@@ -29,7 +29,7 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+# .env*.local
 
 # typescript
 *.tsbuildinfo
