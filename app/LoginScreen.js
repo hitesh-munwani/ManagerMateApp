@@ -29,36 +29,42 @@ const LoginScreen = () => {
       return;
     }
 
-  
     axios
-    .post("http://192.168.18.14:5000/login", {
-      email: email,
-      password: password,
-    }, {
-      headers: {
-        'Content-Type': 'application/json', // Make sure this is set
-      }
-    })
-    .then((response) => {
-      console.log(response.data);
-      if (response.data.message === "Login successful") {
-        // Navigate to HomeScreen upon successful login
-        navigation.navigate("Home");
-      } else {
-        Alert.alert("Login Failed", "Invalid email or password");
-      }
-    })
-    .catch((error) => {
-      console.error("Error logging in:", error);
-      if (error.response) {
-        Alert.alert("Error", error.response.data.message || "Server error");
-      } else if (error.request) {
-        Alert.alert("Error", "No response from the server. Check your network or if the server is running.");
-      } else {
-        Alert.alert("Error", "Failed to send request: " + error.message);
-      }
-    });
-};
+      .post(
+        "http://192.168.0.106:5000/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json", // Make sure this is set
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.message === "Login successful") {
+          // Navigate to HomeScreen upon successful login
+          navigation.navigate("Home");
+        } else {
+          Alert.alert("Login Failed", "Invalid email or password");
+        }
+      })
+      .catch((error) => {
+        console.error("Error logging in:", error);
+        if (error.response) {
+          Alert.alert("Error", error.response.data.message || "Server error");
+        } else if (error.request) {
+          Alert.alert(
+            "Error",
+            "No response from the server. Check your network or if the server is running."
+          );
+        } else {
+          Alert.alert("Error", "Failed to send request: " + error.message);
+        }
+      });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -67,10 +73,7 @@ const LoginScreen = () => {
     >
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.topContainer}>
-          <Image
-            source={require("../../ManagerMate/assets/logo.png")}
-            style={styles.logo}
-          />
+          <Image source={require("./../assets/logo.png")} style={styles.logo} />
           <Text style={styles.text}>
             By signing in you are agreeing {"\n"} our
             <Text style={styles.link}> Term and privacy policy</Text>
@@ -111,7 +114,7 @@ const LoginScreen = () => {
         <View style={styles.bottomContainer}>
           <Image
             style={styles.image}
-            source={require("../../ManagerMate/assets/btmImg.png")}
+            source={require("./../assets/btmImg.png")}
           />
         </View>
       </ScrollView>

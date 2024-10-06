@@ -15,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.topContainer}>
           <Image
-            source={require("../../ManagerMate/assets/DashBoard1.png")}
+            source={require("./../assets/DashBoard1.png")}
             style={styles.logo}
           />
         </View>
@@ -51,7 +51,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.bottomContainer}>
           <Image
             style={styles.image}
-            source={require("../../ManagerMate/assets/btmImg.png")}
+            source={require("./../assets/btmImg.png")}
           />
         </View>
       </ScrollView>
