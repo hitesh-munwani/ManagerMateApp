@@ -1,13 +1,58 @@
 // app/AttendanceScreen.js
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from "react-native";
+
+const API_URL = 'http://localhost:5000/attendance'; // Adjust the port if necessary
 
 const AttendanceScreen = () => {
-  const attendanceData = [
-    { id: "1", date: "2024-10-01", status: "Present" },
-    { id: "2", date: "2024-10-02", status: "Absent" },
-    { id: "3", date: "2024-10-03", status: "Present" },
-  ];
+  const [attendanceData, setAttendanceData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        setAttendanceData(data);
+      } catch (error) {
+        console.error("Error fetching attendance data: ", error);
+        Alert.alert("Error", "Failed to fetch attendance data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAttendanceData();
+  }, []);
+
+  const markAttendance = async () => {
+    const newAttendanceRecord = {
+      date: new Date().toISOString().split('T')[0], // Current date
+      status: "Present", // Default status
+    };
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newAttendanceRecord),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setAttendanceData(prevData => [...prevData, { id: Date.now().toString(), ...newAttendanceRecord }]);
+        Alert.alert("Success", result.message);
+      } else {
+        const errorResponse = await response.json();
+        Alert.alert("Error", errorResponse.error);
+      }
+    } catch (error) {
+      console.error("Error marking attendance: ", error);
+      Alert.alert("Error", "Failed to mark attendance.");
+    }
+  };
 
   const renderAttendanceItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -16,16 +61,20 @@ const AttendanceScreen = () => {
     </View>
   );
 
+  if (loading) {
+    return <Text style={styles.loadingText}>Loading...</Text>;
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Attendance Records</Text>
       <FlatList
         data={attendanceData}
         renderItem={renderAttendanceItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()} // Use toString() if id is a number
         contentContainerStyle={styles.listContainer}
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={markAttendance}>
         <Text style={styles.buttonText}>Mark Attendance</Text>
       </TouchableOpacity>
     </View>
@@ -66,6 +115,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
+    fontSize: 18,
+  },
+  loadingText: {
+    textAlign: "center",
     fontSize: 18,
   },
 });
